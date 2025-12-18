@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= farm.name %> - Farm Details</title>
+
+    <!-- Bootstrap -->
+    <link 
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet">
+</head>
+<body class="bg-light">
+
+    <div class="container mt-5">
+
+        <div class="card shadow-lg mb-4">
+            <div class="card-header bg-success text-white">
+                <h3 class="mb-0">Farm: <%= farm.name %></h3>
+            </div>
+
+            <div class="card-body">
+                <h5 class="mb-3 text-primary">Farm Information</h5>
+
+                <ul class="list-group mb-4">
+                    <li class="list-group-item"><strong>Name:</strong> <%= farm.name %></li>
+                    <li class="list-group-item"><strong>City:</strong> <%= farm.city || "Not provided" %></li>
+                    <li class="list-group-item"><strong>Email:</strong> <%= farm.email || "Not provided" %></li>
+                    <li class="list-group-item"><strong>ID:</strong> <%= farm._id %></li>
+                </ul>
+
+                <a href="/farms" class="btn btn-secondary">Back to All Farms</a>
+                 <br><br>
+                <form action="/farms/<%= farm._id %>?_method=DELETE" method="POST">
+                  <button class="btn btn-danger btn-sm">Delete Farm</button>
+                </form>
+
+            </div>
+        </div>
+
+        <!-- PRODUCTS LIST IF AVAILABLE -->
+        <div class="card shadow-lg">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Products</h4>
+            </div>
+
+            <div class="card-body">
+
+                <% if (farm.products && farm.products.length > 0) { %>
+
+                    <ul class="list-group">
+                        <% farm.products.forEach(product => { %>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <div>
+                                    <strong><%= product.name %></strong>  
+                                    <span class="text-muted">(<%= product.type %>)</span>
+                                </div>
+                                <span class="badge bg-success rounded-pill">Rs <%= product.price %></span>
+                            </li>
+                        <% }) %>
+                    </ul>
+
+                <% } else { %>
+
+                    <p class="text-muted">No products available for this farm.</p>
+
+                <% } %>
+
+            </div>
+            <br><br>
+            <a href="/farm/<%= farm._id %>/products/new"><span style="margin-left: 10px; margin-top:-30px" class="btn btn-outline-success ">Add New Product</span></a>
+            <br><br>
+            <a  class ="btn btn-primary" href="/products/all">View All Products</a>
+        </div>
+         
+    </div>
+
+</body>
+</html>
